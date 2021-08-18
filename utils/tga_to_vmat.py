@@ -9,7 +9,7 @@ OUTPUT_FILE_EXT = '.vmat'
 # TODO: Move to args
 NORMAL_SUFFIX = "_nm"
 ROUGHNESS_SUFFIX = "_bump"
-    
+
 VMAT_BASE = '''// THIS FILE IS AUTO-GENERATED
 
 Layer0
@@ -71,7 +71,7 @@ def walk_dir(dirname, file_ext):
         for filename in filenames:
             if filename.lower().endswith(file_ext) and not filename.lower().endswith(NORMAL_SUFFIX + file_ext) and not filename.lower().endswith(ROUGHNESS_SUFFIX + file_ext):
                 files.append(os.path.join(root,filename))
-            
+
     return files
 
 def putl(f, line, indent = 0):
@@ -89,15 +89,10 @@ def relative_path(s, base):
 
     return fix_path(os.path.basename(abspath) + base + '/' + fix_path(s))
 
-
-def get_mesh_name(file):
-    return os.path.splitext(os.path.basename(fix_path(file)))[0]
-
 print('--------------------------------------------------------------------------------------------------------')
 print('Source 2 VMAT Generator! By pack via Github.')
 print('Initially forked by Alpyne, this version by caseytube and Rectus.')
 print('--------------------------------------------------------------------------------------------------------')
-print('Reminder to put your models in the same directory structure as Source 1, starting with models!\n')
 abspath = ''
 files = []
 
@@ -124,7 +119,6 @@ for filename in files:
     sourcePath = "materials" + filename.split("materials", 1)[1] # HACK?
     tga_path = fix_path(sourcePath)
 
-
     file_name_out_ext = os.path.basename(filename).replace(INPUT_FILE_EXT, "")
 
     normal_file = filename.replace(INPUT_FILE_EXT, NORMAL_SUFFIX + INPUT_FILE_EXT)
@@ -138,8 +132,6 @@ for filename in files:
         out_content = out_content.replace('<texture_roughness>', fix_path("materials" + roughness_file.split("materials", 1)[1]) if os.path.isfile( roughness_file ) else "materials\default\default_rough.tga")
 
         out_content = out_content.replace((' ' * 4), '\t')
-
-        # print(out_content)
 
         putl(out, out_content)
 
