@@ -7,8 +7,8 @@ INPUT_FILE_EXT = '.tga'
 OUTPUT_FILE_EXT = '.vmat'
 
 # TODO: Move to args
-NORMAL_SUFFIX = "_nm"
-ROUGHNESS_SUFFIX = "_bump"
+NORMAL_SUFFIX = "_normal"
+ROUGHNESS_SUFFIX = "_ref"
 
 VMAT_BASE = '''// THIS FILE IS AUTO-GENERATED
 
