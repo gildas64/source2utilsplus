@@ -91,6 +91,6 @@ for filename in files:
     sound_path = fix_path(sourcePath)
     
     with open(out_name, 'w') as out:
-        putl(out, SOUND_BASE.replace('<sound>', sound_path).replace((' ' * 4), '\t'))
+        putl(out, SOUND_BASE.replace('<sound>', sound_path.replace(INPUT_FILE_EXT, ".vsnd") ).replace((' ' * 4), '\t'))
 
 input("Press the <ENTER> key to close...")
