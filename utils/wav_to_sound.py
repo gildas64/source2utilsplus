@@ -80,7 +80,7 @@ if os.path.isdir(abspath):
 #        files.append(abspath)
 
 for filename in files:
-    out_name = filename.replace(INPUT_FILE_EXT, OUTPUT_FILE_EXT)
+    out_name = filename.replace(INPUT_FILE_EXT, ".vsnd")
     #if os.path.exists(out_name): continue
 
     print('Importing', os.path.basename(filename))
