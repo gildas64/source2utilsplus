@@ -1,4 +1,6 @@
-import re, sys, os
+import re
+import sys
+import os
 
 INPUT_FILE_EXT = '.qc'
 OUTPUT_FILE_EXT = '.vmdl'
@@ -33,6 +35,7 @@ VMDL_MESH = '''{{
 }},
 '''.replace('\n', '\n\t\t\t')
 
+
 def parse_qc(qc):
     # strip comments
     qc = re.sub(r'//.*', '', qc)
@@ -40,15 +43,17 @@ def parse_qc(qc):
 
     return tokens
 
+
 def walk_dir(dirname):
     files = []
 
     for root, dirs, filenames in os.walk(dirname):
         for filename in filenames:
             if filename.lower().endswith(INPUT_FILE_EXT):
-                files.append(os.path.join(root,filename))
-            
+                files.append(os.path.join(root, filename))
+
     return files
+
 
 abspath = ''
 files = []
@@ -59,18 +64,22 @@ for path in sys.argv:
     if os.path.isdir(abspath):
         files.extend(walk_dir(abspath))
         break
-    #else:
+    # else:
     #    if abspath.lower().endswith(INPUT_FILE_EXT):
     #        files.append(abspath)
 
-def putl(f, line, indent = 0):
+
+def putl(f, line, indent=0):
     f.write(('\t' * indent) + line + '\r\n')
+
 
 def strip_quotes(s):
     return s.strip('"').strip("'")
 
+
 def fix_path(s):
     return strip_quotes(s).replace('\\', '/').replace('//', '/').strip('/')
+
 
 def relative_path(s, base):
     base = base.replace(abspath, '')
@@ -82,16 +91,18 @@ def relative_path(s, base):
 def get_mesh_name(file):
     return os.path.splitext(os.path.basename(fix_path(file)))[0]
 
+
 for filename in files:
 
     out_name = filename.replace(INPUT_FILE_EXT, OUTPUT_FILE_EXT)
 
-    if os.path.exists(out_name): continue
+    if os.path.exists(out_name):
+        continue
 
     print('Converting', os.path.basename(filename))
 
     qc_params = []
-    
+
     with open(filename, 'r') as qc_file:
         qc_params = parse_qc(qc_file.read())
 
@@ -104,13 +115,14 @@ for filename in files:
             meshes.append((qc_params[i+1], qc_params[i+2]))
         elif p == '$bodygroup':
             meshes.append((qc_params[i+1], qc_params[i+4]))
-        elif p == '$cdmaterials' and not cdmaterials: # just use first $cdmaterials
+        elif p == '$cdmaterials' and not cdmaterials:  # just use first $cdmaterials
             cdmaterials = qc_params[i+1]
 
     meshes_str = ''
     for m in meshes:
         meshes_str += VMDL_MESH.format(
-            mesh_name=get_mesh_name(m[1]), # ignore specified mesh name for now
+            # ignore specified mesh name for now
+            mesh_name=get_mesh_name(m[1]),
             mesh_file=relative_path(m[1], filename),
             cdmaterials=MATERIALS_DIR_BASE + fix_path(cdmaterials)
         )
@@ -118,4 +130,5 @@ for filename in files:
     #out = sys.stdout
 
     with open(out_name, 'w') as out:
-        putl(out, VMDL_BASE.replace('<meshes>', meshes_str).replace((' ' * 4), '\t'))
+        putl(out, VMDL_BASE.replace('<meshes>',
+             meshes_str).replace((' ' * 4), '\t'))

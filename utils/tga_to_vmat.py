@@ -1,7 +1,9 @@
 # cmd command: python tga_to_vmat.py "C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\content\hl2\materials\"
 # MUST run in the models folder
 
-import re, sys, os
+import re
+import sys
+import os
 
 INPUT_FILE_EXT = '.tga'
 OUTPUT_FILE_EXT = '.vmat'
@@ -54,6 +56,7 @@ Layer0
 }
 '''
 
+
 def text_parser(filepath, separator="="):
     return_dict = {}
     with open(filepath, "r") as f:
@@ -64,30 +67,36 @@ def text_parser(filepath, separator="="):
                 return_dict[line[0]] = line[1]
     return return_dict
 
+
 def walk_dir(dirname, file_ext):
     files = []
 
     for root, dirs, filenames in os.walk(dirname):
         for filename in filenames:
             if filename.lower().endswith(file_ext) and not filename.lower().endswith(NORMAL_SUFFIX + file_ext) and not filename.lower().endswith(ROUGHNESS_SUFFIX + file_ext):
-                files.append(os.path.join(root,filename))
+                files.append(os.path.join(root, filename))
 
     return files
 
-def putl(f, line, indent = 0):
+
+def putl(f, line, indent=0):
     f.write(('\t' * indent) + line + '\r\n')
+
 
 def strip_quotes(s):
     return s.strip('"').strip("'")
 
+
 def fix_path(s):
     return strip_quotes(s).replace('\\', '/').replace('//', '/').strip('/')
+
 
 def relative_path(s, base):
     base = base.replace(abspath, '')
     base = base.replace(os.path.basename(base), '')
 
     return fix_path(os.path.basename(abspath) + base + '/' + fix_path(s))
+
 
 print('--------------------------------------------------------------------------------------------------------')
 print('Source 2 VMAT Generator! By pack via Github.')
@@ -96,7 +105,8 @@ print('-------------------------------------------------------------------------
 abspath = ''
 files = []
 
-PATH_TO_CONTENT_ROOT = (len(sys.argv) == 2 and sys.argv[1] or input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\materials: ")).lower()
+PATH_TO_CONTENT_ROOT = (len(sys.argv) == 2 and sys.argv[1] or \
+    input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\materials: ")).lower()
 
 if not os.path.exists(PATH_TO_CONTENT_ROOT):
     print("Please respond with a valid folder or file path! Quitting Process!")
@@ -107,30 +117,35 @@ abspath = os.path.abspath(PATH_TO_CONTENT_ROOT)
 print(abspath)
 if os.path.isdir(abspath):
     files.extend(walk_dir(abspath, INPUT_FILE_EXT))
-#else:
+# else:
 #    if abspath.lower().endswith(INPUT_FILE_EXT):
 #        files.append(abspath)
 
 for filename in files:
     out_name = filename.replace(INPUT_FILE_EXT, OUTPUT_FILE_EXT)
-    if os.path.exists(out_name): continue
+    if os.path.exists(out_name):
+        continue
 
     print('Importing', os.path.basename(filename))
 
-    sourcePath = "materials" + filename.split("materials", 1)[1] # HACK?
+    sourcePath = "materials" + filename.split("materials", 1)[1]  # HACK?
     tga_path = fix_path(sourcePath)
 
     file_name_out_ext = os.path.basename(filename).replace(INPUT_FILE_EXT, "")
 
-    normal_file = filename.replace(INPUT_FILE_EXT, NORMAL_SUFFIX + INPUT_FILE_EXT)
-    roughness_file = filename.replace(INPUT_FILE_EXT, ROUGHNESS_SUFFIX + INPUT_FILE_EXT)
+    normal_file = filename.replace(
+        INPUT_FILE_EXT, NORMAL_SUFFIX + INPUT_FILE_EXT)
+    roughness_file = filename.replace(
+        INPUT_FILE_EXT, ROUGHNESS_SUFFIX + INPUT_FILE_EXT)
 
     with open(out_name, 'w') as out:
         out_content = VMAT_BASE
         out_content = out_content.replace('<texture_color>', tga_path)
 
-        out_content = out_content.replace('<texture_normal>', fix_path("materials" + normal_file.split("materials", 1)[1]) if os.path.isfile( normal_file ) else "materials\default\default_normal.tga")
-        out_content = out_content.replace('<texture_roughness>', fix_path("materials" + roughness_file.split("materials", 1)[1]) if os.path.isfile( roughness_file ) else "materials\default\default_rough.tga")
+        out_content = out_content.replace('<texture_normal>', fix_path("materials" + normal_file.split(
+            "materials", 1)[1]) if os.path.isfile(normal_file) else "materials\default\default_normal.tga")
+        out_content = out_content.replace('<texture_roughness>', fix_path("materials" + roughness_file.split(
+            "materials", 1)[1]) if os.path.isfile(roughness_file) else "materials\default\default_rough.tga")
 
         out_content = out_content.replace((' ' * 4), '\t')
 
