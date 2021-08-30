@@ -96,7 +96,8 @@ print('-------------------------------------------------------------------------
 abspath = ''
 files = []
 
-PATH_TO_CONTENT_ROOT = input("What folder would you like to convert? Valid Format: C:\\Program Files (x86)\\Steam\\steamapps\\common\\Half-Life Alyx\\content\\hl2\\materials\\: ").lower()
+PATH_TO_CONTENT_ROOT = (len(sys.argv) == 2 and sys.argv[1] or input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\materials: ")).lower()
+
 if not os.path.exists(PATH_TO_CONTENT_ROOT):
     print("Please respond with a valid folder or file path! Quitting Process!")
     quit()

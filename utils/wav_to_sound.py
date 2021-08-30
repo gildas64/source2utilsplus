@@ -65,7 +65,8 @@ print('Reminder to put your sounds in the same directory structure as Source 1, 
 abspath = ''
 files = []
 
-PATH_TO_CONTENT_ROOT = input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\sounds\\props_spytech\\: ").lower()
+PATH_TO_CONTENT_ROOT = (len(sys.argv) == 2 and sys.argv[1] or input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\sounds\\props_spytech: ")).lower()
+
 if not os.path.exists(PATH_TO_CONTENT_ROOT):
     print("Please respond with a valid folder or file path! Quitting Process!")
     quit()

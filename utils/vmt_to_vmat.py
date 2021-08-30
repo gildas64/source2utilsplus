@@ -282,8 +282,9 @@ no = {'no','n', ''}
 validS2Shaders = {'vr_complex','vr_standard'}
 convertVTFs = False
 
-targetFolder = input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\materials: ").lower()
-if not os.path.exists(targetFolder):
+PATH_TO_CONTENT_ROOT = (len(sys.argv) == 2 and sys.argv[1] or input("What folder would you like to convert? Valid Format: C:\\Steam\\steamapps\\Half-Life Alyx\\content\\tf\\materials: ")).lower()
+
+if not os.path.exists(PATH_TO_CONTENT_ROOT):
     print("Please respond with a valid folder or file path! Quitting Process!")
     quit()
 
@@ -341,8 +342,8 @@ foldersToSkip = [
     "materials\\debug"
 ]
 
-if(targetFolder):
-    absFilePath = os.path.abspath(targetFolder)
+if(PATH_TO_CONTENT_ROOT):
+    absFilePath = os.path.abspath(PATH_TO_CONTENT_ROOT)
     if os.path.isdir(absFilePath):
         fileList.extend(parseDir(absFilePath))
     elif(absFilePath.lower().endswith('.vmt')):
