@@ -12,14 +12,10 @@ def LogPrint(inputString, print_bool=True):
     if print_bool == True:
         print(inputString)
 
-
-INPUT_FILE_EXT = '.vmf'
-# this leads to the root of the game folder, i.e. dota 2 beta/content/dota_addons/, make sure to remember the final slash!!
-PATH_TO_GAME_CONTENT_ROOT = ""
-PATH_TO_CONTENT_ROOT = ""
+INPUT_FILE_EXT = '.vmf' 
 
 print('--------------------------------------------------------------------------------------------------------')
-print('Source 2 .vmf Prepper! EXPERIMENTAL!! By "caseytube" and "The [G]amerX" <3 via Github')
+print('Source 2 .vmf Prepper! EXPERIMENTAL!! By "caseytube", "The [G]amerX" and "pack" <3 via Github')
 print('Converts .vmf files to be ready for Source 2 by fixing materials and entities')
 print('--------------------------------------------------------------------------------------------------------')
 
@@ -63,8 +59,8 @@ else:
 #############################################################
 
 filename = PATH_TO_VMF
-convertedFilename = filename.replace('.vmf', '') + 'Converted.vmf'
-LogFilename = filename.replace('.vmf', '') + '_log.txt'
+convertedFilename = filename.replace(INPUT_FILE_EXT, '') + 'Converted' + INPUT_FILE_EXT
+LogFilename = filename.replace(INPUT_FILE_EXT, '') + '_log.txt'
 logFile = open(LogFilename, 'w')
 
 if not os.path.exists(filename):
