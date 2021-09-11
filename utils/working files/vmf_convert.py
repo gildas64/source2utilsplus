@@ -203,17 +203,16 @@ with open(convertedFilename, 'w') as convFile:
 
             #############################################################
 
-            if "\"uaxis\"" in line:
-                oldVar = splitLine[last]
-                newVar = float(oldVar) * 32
-                LogPrint('uaxis: ' + str(oldVar) + ' -> ' + str(newVar), False)
-                newLine = line.replace(str(oldVar), str(newVar))
-                convFile.write(newLine)
-            elif "\"vaxis\"" in line:
-                oldVar = splitLine[last]
-                newVar = float(oldVar) * 32
-                LogPrint('vaxis: ' + str(oldVar) + ' -> ' + str(newVar), False)
-                newLine = line.replace(str(oldVar), str(newVar))
+            if "\"uaxis\"" in line or "\"vaxis\"" in line:
+                scale = splitLine[last]
+                shift = splitLine[last-1].replace("]", "")
+
+                newScale = float(scale) * 32
+                newShift = float(shift) / 32
+
+                oldLine = re.split('\-?[0-9]\d{0,2}(\.\d*||)\]', line)
+                newLine = oldLine[0] + str(newShift) + '] ' + str(newScale) + "\"\n"
+
                 convFile.write(newLine)
             elif "\"uniformscale\"" in line:
                 oldVar = splitLine[last]
