@@ -510,5 +510,10 @@ with open(convertedFilename, 'w') as convFile:
                 newLine = line.replace("dz_door", "prop_door_rotating")
                 LogPrint('dz_door -> prop_door_rotating')
                 convFile.write(newLine)
+            elif "\"prop_physics_multiplayer\"" in line:
+                newLine = line.replace("prop_physics_multiplayer", "prop_physics")
+                LogPrint('prop_physics_multiplayer -> prop_physics')
+                convFile.write(newLine)
+                convFile.write(newLine)
             else:
                 convFile.write(line)
