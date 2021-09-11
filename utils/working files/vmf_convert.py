@@ -64,11 +64,13 @@ filename = sys.argv[1]
 convertedFilename = filename.replace('.vmf', '') + 'Converted.vmf'
 LogFilename = filename.replace('.vmf', '') + '_log.txt'
 logFile = open(LogFilename, 'w')
+
 if not os.path.exists(filename):
     print("input file doesn't exist")
     quit()
 
 LogPrint('Importing ' + os.path.basename(filename))
+
 deletingProces = 0
 savingProces = 0
 savingSolidProces = 0
@@ -124,6 +126,7 @@ ObseleteEntities = [
     "\"func_clip_vphysics\"",
     "_projectile\""
 ]
+
 if convert_weapons == 2:
     ObseleteEntities.append("\"weapon_")
 with open(convertedFilename, 'w') as convFile:
