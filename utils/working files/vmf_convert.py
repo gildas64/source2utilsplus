@@ -514,6 +514,5 @@ with open(convertedFilename, 'w') as convFile:
                 newLine = line.replace("prop_physics_multiplayer", "prop_physics")
                 LogPrint('prop_physics_multiplayer -> prop_physics')
                 convFile.write(newLine)
-                convFile.write(newLine)
             else:
                 convFile.write(line)
