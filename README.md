@@ -69,32 +69,20 @@ Will be created new map file, so the used .vmf file will not be modified.
 | fog_volume | env_volumetric_fog_volume |
 | env_fog_controller | env_volumetric_fog_controller |
 | env_sun | env_sky |
-| info_player_terrorist | info_player_start |
-| info_player_counterterrorist | info_player_start |
-| info_player_teamspawn | info_player_start |
-| info_player_deathmatch | info_player_start |
+| info_player_terrorist, info_player_counterterrorist, info_player_teamspawn, info_player_deathmatch | info_player_start |
 | game_player_equip | info_hlvr_equip_player |
 | info_teleport_destination | point_teleport |
-| prop_loot_crate | item_item_crate |
-| prop_metal_crate | item_item_crate |
-| prop_money_crate | item_item_crate |
-| prop_paradrop_crate | item_item_crate |
-| point_dz_weaponspawn | item_item_crate |
-| point_dz_itemspawn | item_item_crate |
+| prop_loot_crate, prop_metal_crate, prop_money_crate, prop_paradrop_crate, point_dz_weaponspawn, point_dz_itemspawn | item_item_crate |
 | weapon_breachcharge | item_hlvr_weapon_tripmine |
 | weapon_hegrenade | weapon_frag |
 | weapon_revolver | weapon_357 |
 | weapon_healthshot | item_healthvial |
 | dronegun | npc_turret_floor |
 | point_dz_dronegun | npc_turret_floor |
-| func_conveyor | func_brush |
-| func_detail_blocker | func_brush |
-| func_occluder | func_brush |
-| func_illusionary | func_brush |
+| func_conveyor, func_detail_blocker, func_occluder, func_illusionary | func_brush |
 | func_ladderendpoint | func_useableladder |
-| prop_exploding_barrel | prop_physics |
+| prop_exploding_barrel, prop_physics_multiplayer | prop_physics |
 | dz_door | prop_door_rotating |
-| prop_physics_multiplayer | prop_physics |
 | weapon_deagle, weapon_usp, weapon_p250, weapon_fiveseven, weapon_hpk, weapon_glock | weapon_pistol |
 | weapon_xm1014, weapon_autoshotgun, weapon_mag7, weapon_sawedoff, weapon_m13 | weapon_shotgun |
 | weapon_ak47, weapon_m4a1, weapon_galil, weapon_famas, weapon_aug | weapon_ar2 |
