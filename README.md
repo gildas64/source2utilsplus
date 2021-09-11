@@ -52,6 +52,55 @@ Once that's done, open your tools and it will hang for a minute. I'd recommend l
 An older attempt at converting models before I figured out how to directly import .mdl files.
 You can use this as a base if you want to import the source files manually.
 
+## vmf_convert.py
+
+I took the WIP version of the file from [GamerXCZ/source2utils](https://github.com/GamerXCZ/source2utils), and finished it. Now it's fine fixing the scale of the materials and their shifts.
+
+``python vmf_convert.py "C:\path\to\vmf\file.vmf"``
+
+Will be created new map file, so the used .vmf file will not be modified.
+- Script trying to fix the materials scaling.
+- Fixes models scaling and shifts.
+- Partial repair of FOG entities.
+- Converts some entity to other entity, in order to fix them in the resulting game:
+
+| Source enitity | Resulting enitity |
+| --- | --- |
+| fog_volume | env_volumetric_fog_volume |
+| env_fog_controller | env_volumetric_fog_controller |
+| env_sun | env_sky |
+| info_player_terrorist | info_player_start |
+| info_player_counterterrorist | info_player_start |
+| info_player_teamspawn | info_player_start |
+| info_player_deathmatch | info_player_start |
+| game_player_equip | info_hlvr_equip_player |
+| info_teleport_destination | point_teleport |
+| prop_loot_crate | item_item_crate |
+| prop_metal_crate | item_item_crate |
+| prop_money_crate | item_item_crate |
+| prop_paradrop_crate | item_item_crate |
+| point_dz_weaponspawn | item_item_crate |
+| point_dz_itemspawn | item_item_crate |
+| weapon_breachcharge | item_hlvr_weapon_tripmine |
+| weapon_hegrenade | weapon_frag |
+| weapon_revolver | weapon_357 |
+| weapon_healthshot | item_healthvial |
+| dronegun | npc_turret_floor |
+| point_dz_dronegun | npc_turret_floor |
+| func_conveyor | func_brush |
+| func_detail_blocker | func_brush |
+| func_occluder | func_brush |
+| func_illusionary | func_brush |
+| func_ladderendpoint | func_useableladder |
+| prop_exploding_barrel | prop_physics |
+| dz_door | prop_door_rotating |
+| prop_physics_multiplayer | prop_physics |
+| weapon_deagle, weapon_usp, weapon_p250, weapon_fiveseven, weapon_hpk, weapon_glock | weapon_pistol |
+| weapon_xm1014, weapon_autoshotgun, weapon_mag7, weapon_sawedoff, weapon_m13 | weapon_shotgun |
+| weapon_ak47, weapon_m4a1, weapon_galil, weapon_famas, weapon_aug | weapon_ar2 |
+| weapon_knife, weapon_bayonet, weapon_hammer, weapon_axe, weapon_spanner, weapon_melee | weapon_crowbar |
+
+
 ## Troubleshooting
 ##### *I got an error when converting materials! Something about not being able to convert something to something!*
 
