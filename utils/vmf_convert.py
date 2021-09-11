@@ -27,10 +27,6 @@ print('-------------------------------------------------------------------------
 
 PATH_TO_VMF = (len(sys.argv) == 2 and sys.argv[1] or input("What folder would you like to convert? Choose .vmf file\n")).lower()
 
-if not os.path.exists(PATH_TO_VMF):
-    print("Please respond with a valid file! Quitting Process!")
-    quit()
-
 someInput = input("Would you like to convert/delete 'weapon_*' entities?\n - 1: convert weapons entities\n - 2: delete weapons entities\n - 3: make them prop_physics with the appropriate model \n (1/2/3):").lower()
 if someInput in "1":
     convert_weapons = 1
