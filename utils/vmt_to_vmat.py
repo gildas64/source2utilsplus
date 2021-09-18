@@ -715,7 +715,7 @@ for vmtFileName in fileList:
                             vmtParameters["$detail"]) + " in TGA does not exist. Skipping!")
 
                 vmatFile.write('\tTextureDetail "' + 'materials/' +
-                               parseVMTPath(vmtParameters["$detail"]) + '.tga"\n')
+                               parseVMTPath(vmtParameters["$detail"]).strip() + '.tga"\n')
                 if "$detailblendmode" in vmtParameters:
                     vmatFile.write('\tF_DETAIL_TEXTURE 2\n')  # Overlay
                 else:
