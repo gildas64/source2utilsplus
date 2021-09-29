@@ -77,9 +77,9 @@ classnameVar = ""
 saveLines = ""
 saveSolidLines = ""
 EntitiesToConvert = {
-    "\"env_volumetric_fog_volume\"": {"fog_volume"},
-    "\"env_volumetric_fog_controller\"": {"env_fog_controller"},
-    "\"env_sky\"": {"env_sun"},
+    "\"env_volumetric_fog_volume\"": {"\"fog_volume\""},
+    "\"env_volumetric_fog_controller\"": {"\"env_fog_controller\""},
+    "\"env_sky\"": {"\"env_sun\""},
     "\"info_hlvr_equip_player\"": {"game_player_equip"},
     "\"info_player_start\"": {
         "\"info_player_terrorist\"",
