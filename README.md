@@ -77,8 +77,7 @@ Will be created new map file, so the used .vmf file will not be modified.
 | weapon_hegrenade | weapon_frag |
 | weapon_revolver | weapon_357 |
 | weapon_healthshot | item_healthvial |
-| dronegun | npc_turret_floor |
-| point_dz_dronegun | npc_turret_floor |
+| dronegun, point_dz_dronegun | npc_turret_floor |
 | func_conveyor, func_detail_blocker, func_occluder, func_illusionary | func_brush |
 | func_ladderendpoint | func_useableladder |
 | prop_exploding_barrel, prop_physics_multiplayer | prop_physics |

@@ -12,7 +12,8 @@ def LogPrint(inputString, print_bool=True):
     if print_bool == True:
         print(inputString)
 
-INPUT_FILE_EXT = '.vmf' 
+
+INPUT_FILE_EXT = '.vmf'
 
 print('--------------------------------------------------------------------------------------------------------')
 print('Source 2 .vmf Prepper! EXPERIMENTAL!! By "caseytube", "The [G]amerX" and "pack" <3 via Github')
@@ -75,6 +76,71 @@ savingSolidProces = 0
 classnameVar = ""
 saveLines = ""
 saveSolidLines = ""
+EntitiesToConvert = {
+    "\"env_volumetric_fog_volume\"": {"fog_volume"},
+    "\"env_volumetric_fog_controller\"": {"env_fog_controller"},
+    "\"env_sky\"": {"env_sun"},
+    "\"info_hlvr_equip_player\"": {"game_player_equip"},
+    "\"info_player_start\"": {
+        "\"info_player_terrorist\"",
+        "\"info_player_counterterrorist\"",
+        "\"info_player_teamspawn\"",
+        "\"info_player_deathmatch\""
+    },
+    "\"item_item_crate\"": {
+        "\"prop_loot_crate\"",
+        "\"prop_metal_crate\"",
+        "\"prop_money_crate\"",
+        "\"prop_paradrop_crate\"",
+        "\"point_dz_weaponspawn\"",
+        "\"point_dz_itemspawn\""
+    },
+    "\"func_brush\"": {
+        "\"func_conveyor\"",
+        "\"func_detail_blocker\"",
+        "\"func_occluder\""
+    },
+    "\"weapon_pistol\"": {
+        "\"weapon_deagle\"",
+        "\"weapon_usp\"",
+        "\"weapon_p250\"",
+        "\"weapon_fiveseven\"",
+        "\"weapon_hpk\"",
+        "\"weapon_glock\""
+    },
+    "\"weapon_shotgun\"": {
+        "\"weapon_xm1014\"",
+        "\"weapon_autoshotgun\"",
+        "\"weapon_mag7\"",
+        "\"weapon_sawedoff\"",
+        "\"weapon_m13\""
+    },
+    "\"weapon_ar2\"": {
+        "\"weapon_ak47\"",
+        "\"weapon_m4a1\"",
+        "\"weapon_galil\"",
+        "\"weapon_famas\"",
+        "\"weapon_aug\""
+    },
+    "\"weapon_crowbar\"": {
+        "\"weapon_knife\"",
+        "\"weapon_bayonet\"",
+        "\"weapon_hammer\"",
+        "\"weapon_axe\"",
+        "\"weapon_spanner\"",
+        "\"weapon_melee\""
+    },
+    "\"weapon_357\"": {"\"weapon_revolver\""},
+    "\"item_healthvial\"": {"\"weapon_healthshot\""},
+    "\"item_hlvr_weapon_tripmine\"": {"\"weapon_breachcharge\""},
+    "\"weapon_frag\"": {"\"weapon_hegrenade\""},
+    "\"npc_turret_floor\"": {
+        "\"dronegun\"",
+        "\"point_dz_dronegun\""
+    },
+    "\"prop_door_rotating\"": {"\"dz_door\""},
+    "\"prop_physics\"": {"\"prop_physics_multiplayer\""},
+}
 ObseleteEntities = [
     "\"func_areaportal\"",
     "\"func_areaportalwindow\"",
@@ -204,6 +270,19 @@ with open(convertedFilename, 'w') as convFile:
 
             #############################################################
 
+            bLineFound = False
+            for ResultClass in EntitiesToConvert:
+                for EntityClass in EntitiesToConvert[ResultClass]:
+                    if EntityClass in line:
+                        newLine = line.replace(EntityClass, ResultClass)
+                        LogPrint(f'{EntityClass} -> {ResultClass}')
+                        convFile.write(newLine)
+
+                        bLineFound = True
+
+            if bLineFound:
+                continue
+
             if "\"uaxis\"" in line or "\"vaxis\"" in line:
                 scale = splitLine[last]
                 shift = splitLine[last-1].replace("]", "")
@@ -218,18 +297,7 @@ with open(convertedFilename, 'w') as convFile:
             elif "\"uniformscale\"" in line:
                 oldVar = splitLine[last]
                 newLine = line.replace("uniformscale", "scales")
-                newLine = newLine.replace(str(oldVar), str(
-                    oldVar) + " " + str(oldVar) + " " + str(oldVar))
-                convFile.write(newLine)
-            elif "\"fog_volume\"" in line:
-                newLine = line.replace(
-                    "fog_volume", "env_volumetric_fog_volume")
-                LogPrint('fog_volume -> env_volumetric_fog_volume')
-                convFile.write(newLine)
-            elif "\"env_fog_controller\"" in line:
-                newLine = line.replace(
-                    "env_fog_controller", "env_volumetric_fog_controller")
-                LogPrint('env_fog_controller -> env_volumetric_fog_controller')
+                newLine = newLine.replace(str(oldVar), f'{str(oldVar)} {str(oldVar)} {str(oldVar)}')
                 convFile.write(newLine)
             elif "\"fogend\"" in line:
                 newLine = line.replace("fogend", "FadeInEnd")
@@ -253,35 +321,6 @@ with open(convertedFilename, 'w') as convFile:
             elif "\"foglerptime\"" in line:
                 newLine = line.replace("foglerptime", "FadeSpeed")
                 LogPrint('Fixing "foglerptime" property...')
-                convFile.write(newLine)
-            elif "\"env_sun\"" in line:
-                newLine = line.replace("env_sun", "env_sky")
-                LogPrint('env_sun -> env_sky')
-                convFile.write(newLine)
-            elif "\"info_player_terrorist\"" in line:
-                newLine = line.replace(
-                    "info_player_terrorist", "info_player_start")
-                LogPrint('info_player_terrorist -> info_player_start')
-                convFile.write(newLine)
-            elif "\"info_player_counterterrorist\"" in line:
-                newLine = line.replace(
-                    "info_player_counterterrorist", "info_player_start")
-                LogPrint('info_player_counterterrorist -> info_player_start')
-                convFile.write(newLine)
-            elif "\"info_player_teamspawn\"" in line:
-                newLine = line.replace(
-                    "info_player_teamspawn", "info_player_start")
-                LogPrint('info_player_teamspawn -> info_player_start')
-                convFile.write(newLine)
-            elif "\"info_player_deathmatch\"" in line:
-                newLine = line.replace(
-                    "info_player_deathmatch", "info_player_start")
-                LogPrint('info_player_deathmatch -> info_player_start')
-                convFile.write(newLine)
-            elif "\"game_player_equip\"" in line:
-                newLine = line.replace(
-                    "game_player_equip", "info_hlvr_equip_player")
-                LogPrint('game_player_equip -> info_hlvr_equip_player')
                 convFile.write(newLine)
             elif "\"info_teleport_destination\"" in line:
                 newLine = line.replace(
@@ -322,8 +361,7 @@ with open(convertedFilename, 'w') as convFile:
                 R, G, B, A = oldVar.split(' ', 4)
                 newA = float(A) * 0.0039215686274509803921568627451
                 newLine = line.replace("_light", "original_color")
-                newLine = newLine.replace(str(oldVar), str(
-                    R) + " " + str(G) + " " + str(B))
+                newLine = newLine.replace(str(oldVar), f'{str(R)} {str(G)} {str(B)}')
                 convFile.write(newLine)
                 newLine = line.replace("_light", "original_brightness")
                 newLine = newLine.replace(str(oldVar), str(newA))
@@ -333,44 +371,35 @@ with open(convertedFilename, 'w') as convFile:
                     oldVar = splitLine[last]
                     newVar = int(oldVar) ^ 1
                     newLine = line.replace("spawnflags", "enabled")
-                    LogPrint('Fixing "spawnflags" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Fixing "spawnflags" property for {classnameVar} entity...')
                     newLine = newLine.replace(str(oldVar), str(newVar))
                     convFile.write(newLine)
                 elif "env_tonemap_controller" in classnameVar:
                     newLine = line.replace("spawnflags", "master")
-                    LogPrint('Fixing "spawnflags" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Fixing "spawnflags" property for {classnameVar} entity...')
                     convFile.write(newLine)
                 elif "env_fog_controller" in classnameVar:
                     newLine = line.replace("spawnflags", "IsMaster")
-                    LogPrint('Fixing "spawnflags" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Fixing "spawnflags" property for {classnameVar} entity...')
                     convFile.write(newLine)
             elif "\"mingpulevel\"" in line:
                 if "prop_static" in classnameVar:
-                    LogPrint('Skipping "mingpulevel" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Skipping "mingpulevel" property for {classnameVar} entity...')
             elif "\"mincpulevel\"" in line:
                 if "prop_static" in classnameVar:
-                    LogPrint('Skipping "mincpulevel" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Skipping "mincpulevel" property for {classnameVar} entity...')
             elif "\"maxgpulevel\"" in line:
                 if "prop_static" in classnameVar:
-                    LogPrint('Skipping "maxgpulevel" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Skipping "maxgpulevel" property for {classnameVar} entity...')
             elif "\"maxcpulevel\"" in line:
                 if "prop_static" in classnameVar:
-                    LogPrint('Skipping "maxcpulevel" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Skipping "maxcpulevel" property for {classnameVar} entity...')
             elif "\"disableX360\"" in line:
                 if "prop_static" in classnameVar:
-                    LogPrint('Skipping "disableX360" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Skipping "disableX360" property for {classnameVar} entity...')
             elif "\"is_security_door\"" in line:
                 if "dz_door" in classnameVar:
-                    LogPrint('Skipping "is_security_door" property for ' +
-                             classnameVar + ' entity...')
+                    LogPrint(f'Skipping "is_security_door" property for {classnameVar} entity...')
             elif "\"fademaxdist\"" in line:
                 convFile.write(line)
                 newLine = line.replace("fademaxdist", "original_fademaxdist")
@@ -385,91 +414,6 @@ with open(convertedFilename, 'w') as convFile:
                 convFile.write(line)
                 newLine = line.replace("solid", "original_solid")
                 LogPrint('Saving "solid" property...')
-                convFile.write(newLine)
-            elif "\"prop_loot_crate\"" in line:
-                newLine = line.replace("prop_loot_crate", "item_item_crate")
-                LogPrint('prop_loot_crate -> item_item_crate')
-                convFile.write(newLine)
-            elif "\"prop_metal_crate\"" in line:
-                newLine = line.replace("prop_metal_crate", "item_item_crate")
-                LogPrint('prop_metal_crate -> item_item_crate')
-                convFile.write(newLine)
-            elif "\"prop_money_crate\"" in line:
-                newLine = line.replace("prop_money_crate", "item_item_crate")
-                LogPrint('prop_money_crate -> item_item_crate')
-                convFile.write(newLine)
-            elif "\"prop_paradrop_crate\"" in line:
-                newLine = line.replace(
-                    "prop_paradrop_crate", "item_item_crate")
-                LogPrint('prop_paradrop_crate -> item_item_crate')
-                convFile.write(newLine)
-            elif "\"point_dz_weaponspawn\"" in line:
-                newLine = line.replace(
-                    "point_dz_weaponspawn", "item_item_crate")
-                LogPrint('point_dz_weaponspawn -> item_item_crate')
-                convFile.write(newLine)
-            elif "\"point_dz_itemspawn\"" in line:
-                newLine = line.replace("point_dz_itemspawn", "item_item_crate")
-                LogPrint('point_dz_itemspawn -> item_item_crate')
-                convFile.write(newLine)
-                # start weapon_* entities...
-            elif "\"weapon_deagle\"" in line or "\"weapon_usp" in line or "\"weapon_p250\"" in line or "\"weapon_fiveseven\"" in line or "\"weapon_hpk" in line or "\"weapon_glock" in line:
-                oldVar = splitLine[last]
-                newLine = line.replace(oldVar, "weapon_pistol")
-                LogPrint(str(oldVar) + ' -> weapon_pistol')
-                convFile.write(newLine)
-            elif "\"weapon_nova\"" in line or "\"weapon_xm1014\"" in line or "\"weapon_autoshotgun\"" in line or "\"weapon_mag7\"" in line or "\"weapon_sawedoff\"" in line or "\"weapon_m13\"" in line:
-                oldVar = splitLine[last]
-                newLine = line.replace(oldVar, "weapon_shotgun")
-                LogPrint(str(oldVar) + ' -> weapon_shotgun')
-                convFile.write(newLine)
-            elif "\"weapon_breachcharge\"" in line:
-                newLine = line.replace(
-                    "weapon_breachcharge", "item_hlvr_weapon_tripmine")
-                LogPrint('weapon_breachcharge -> item_hlvr_weapon_tripmine')
-                convFile.write(newLine)
-            elif "\"weapon_ak47\"" in line or "\"weapon_m4a1" in line or "\"weapon_galil" in line or "\"weapon_famas" in line or "\"weapon_aug" in line:
-                oldVar = splitLine[last]
-                newLine = line.replace(oldVar, "weapon_ar2")
-                LogPrint(str(oldVar) + ' -> weapon_ar2')
-                convFile.write(newLine)
-            elif "\"weapon_knife" in line or "\"weapon_bayonet" in line or "\"weapon_hammer\"" in line or "\"weapon_axe\"" in line or "\"weapon_spanner\"" in line or "\"weapon_melee\"" in line:
-                oldVar = splitLine[last]
-                newLine = line.replace(oldVar, "weapon_crowbar")
-                LogPrint(str(oldVar) + ' -> weapon_crowbar')
-                convFile.write(newLine)
-            elif "\"weapon_hegrenade\"" in line:
-                newLine = line.replace("weapon_hegrenade", "weapon_frag")
-                LogPrint('weapon_hegrenade -> weapon_frag')
-                convFile.write(newLine)
-            elif "\"weapon_revolver\"" in line:
-                newLine = line.replace("weapon_revolver", "weapon_357")
-                LogPrint('weapon_revolver -> weapon_357')
-                convFile.write(newLine)
-            elif "\"weapon_healthshot\"" in line:
-                newLine = line.replace("weapon_healthshot", "item_healthvial")
-                LogPrint('weapon_healthshot -> item_healthvial')
-                convFile.write(newLine)
-                # end weapon_* entities.
-            elif "\"dronegun\"" in line:
-                newLine = line.replace("dronegun", "npc_turret_floor")
-                LogPrint('dronegun -> npc_turret_floor')
-                convFile.write(newLine)
-            elif "\"point_dz_dronegun\"" in line:
-                newLine = line.replace("point_dz_dronegun", "npc_turret_floor")
-                LogPrint('point_dz_dronegun -> npc_turret_floor')
-                convFile.write(newLine)
-            elif "\"func_conveyor\"" in line:
-                newLine = line.replace("func_conveyor", "func_brush")
-                LogPrint('func_conveyor -> func_brush')
-                convFile.write(newLine)
-            elif "\"func_detail_blocker\"" in line:
-                newLine = line.replace("func_detail_blocker", "func_brush")
-                LogPrint('func_detail_blocker -> func_brush')
-                convFile.write(newLine)
-            elif "\"func_occluder\"" in line:
-                newLine = line.replace("func_occluder", "func_brush")
-                LogPrint('func_occluder -> func_brush')
                 convFile.write(newLine)
             elif "\"func_illusionary\"" in line:
                 newLine = line.replace("func_illusionary", "func_brush")
@@ -506,14 +450,6 @@ with open(convertedFilename, 'w') as convFile:
                 newLine = line.replace("classname", "model")
                 newLine = newLine.replace(
                     "prop_exploding_barrel", "models/props/coop_cementplant/exloding_barrel/exploding_barrel.vmdl")
-                convFile.write(newLine)
-            elif "\"dz_door\"" in line:
-                newLine = line.replace("dz_door", "prop_door_rotating")
-                LogPrint('dz_door -> prop_door_rotating')
-                convFile.write(newLine)
-            elif "\"prop_physics_multiplayer\"" in line:
-                newLine = line.replace("prop_physics_multiplayer", "prop_physics")
-                LogPrint('prop_physics_multiplayer -> prop_physics')
                 convFile.write(newLine)
             else:
                 convFile.write(line)
