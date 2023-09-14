@@ -1,6 +1,18 @@
+this is a shitty fork of the source2utils from realpack and from other people. i made this fork because i used this to attempt porting a map from gmod to s&box, until i realized that the materials uses `vr_complex` from HL:A instead of just `complex` in s&box. all it literally takes is just one line of code to modify and it works.
+
+even though i don't really know much python, i'll probably try to extend this so that it **fully** supports s&box, including more shaders options such as:
+- water
+- glass
+- and more stuff idk
+
+> [!WARNING]
+> as the people who made this thing say and also my shit knowledge of python, the program's gonna a lil bit broken. issues are welcome though i guess
+
+# original description
+
 ***HEY! These utilities are still broken in a lot of ways and will fail very often. Please use with the understanding that it doesn't perfectly convert files yet and will only go through certain texture sets perfectly.***
 
-# source2utils
+## source2utils
 
 This is a 3rd generation fork, first created by Rectus and then Forked by Alpyne and Caseytube. These are a set of scripts to help convert Source 1 assets to Source 2 with ease, partly using the tools Valve already have available, and using a materials script that takes a lot of guesswork. These tools were intended to be used with the Source 2 Filmmaker, but can be applied to any Source 2 project.
 
@@ -18,7 +30,7 @@ Below is a list of branches that DON'T work with this tool (with the HL:A Bootle
 - Left 4 Dead 2 (most content works, but player models crash the engine.)
 - Half-Life 1 (this should be obvious but just in-case you were curious)
 
-## Installation Instructions
+### Installation Instructions
 1. Go to the Releases Tab on the top right of this page
 
 2. Download the latest release and extract to anywhere.
@@ -27,7 +39,7 @@ Below is a list of branches that DON'T work with this tool (with the HL:A Bootle
 
 4. Run the scripts as instructed below.
 
-## vmt_to_vmat.py
+### vmt_to_vmat.py
 
 A more advanced script meant to help ease the conversion process of materials from Source 1's phong-specular approach to the modern PBR-specular approach in most Source 2 games.
 
@@ -37,7 +49,7 @@ To run, you will need to have all your materials in the content folder of your t
 
 Once that's done, open your tools and it will hang for a minute. I'd recommend listing "Materials" as the only asset type on the top right, going into "List" mode on the top left of the Asset Browser, and then selecting all of your materials by pressing "CTRL+A" and right clicking them, then clicking "Force Recompile." This will take a long time depending on your computer and how many materials you have, so set this up and walk away for a bit. After that's done, just right click and select "Refresh Thumbnails" and your content should be pretty easy to load from there.
 
-## mdl_to_vmdl.py
+### mdl_to_vmdl.py
 
 Generates a .vmdl file that will tell Source 2 to import its accompanying .mdl file. You **must** leave the .mdl with the .vmdl file, or else it won't compile!
 
@@ -45,7 +57,7 @@ To run, you will need to have all your models in the content folder of your targ
 
 Once that's done, open your tools and it will hang for a minute. I'd recommend listing "Models" as the only asset type on the top right, going into "List" mode on the top left of the Asset Browser, and then selecting all of your models by pressing "CTRL+A" and right clicking them, then clicking "Force Recompile." This will take a long time depending on your computer and how many materials you have, so set this up and walk away for a bit. After that's done, just right click and select "Refresh Thumbnails" and your content should be pretty easy to load from there.
 
-## qc_to_vmdl.py
+### qc_to_vmdl.py
 
 (deprecated)
 
@@ -88,7 +100,7 @@ Will be created new map file, so the used .vmf file will not be modified.
 | weapon_knife, weapon_bayonet, weapon_hammer, weapon_axe, weapon_spanner, weapon_melee | weapon_crowbar |
 
 
-## Troubleshooting
+### Troubleshooting
 ##### *I got an error when converting materials! Something about not being able to convert something to something!*
 
 If you get an error that says something like "ValueError: could not convert string to float," most likely your .VMT file has a parameter in it that is incorrectly formatted. Please refer to the [Valve Developer Community](https://developer.valvesoftware.com/wiki/Category:List_of_Shader_Parameters) for instructions on how your .VMTs should be formatted. Be sure to check for white space after the value, or white space inside of the quotation marks of the value. I also see a lot of `s (grave accents) where there should be quotes.
